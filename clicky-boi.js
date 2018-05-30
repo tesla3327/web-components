@@ -9,16 +9,8 @@ class ClickyBoi extends HTMLElement {
   
   constructor() {
     super();
-
     this.props = {};
-
     this.shadow = this.attachShadow({ mode: 'closed' });
-    this.styleNode = document.createElement('style');
-    this.button = document.createElement('button');
-    this.button.onclick = this.handleClick.bind(this);
-    
-    this.shadow.appendChild(this.button);
-    this.shadow.appendChild(this.styleNode);
   }
 
   connectedCallback() {
@@ -61,10 +53,15 @@ class ClickyBoi extends HTMLElement {
   }
 
   render() {
-    // Rendering is imperative :/
-    this.styleNode.textContent = this.style;
-    this.button.textContent = this.props.text;
-    this.button.disabled = this.props.disabled;
+    this.shadow.innerHTML = `
+      <style>
+        ${this.style}
+      </style>
+      <button ${this.props.disabled ? 'disabled' : ''}>
+        ${this.props.text}
+      </button>
+    `;
+    this.shadow.querySelector('button').onclick = this.handleClick.bind(this);
   }
 }
 

@@ -1,15 +1,8 @@
 class CounterDisplay extends HTMLElement {
   constructor() {
     super();
-
     this.props = {};
-
     this.shadow = this.attachShadow({ mode: 'closed' });
-    this.countNode = document.createElement('h1');
-    this.styleNode = document.createElement('style');
-
-    this.shadow.appendChild(this.countNode);
-    this.shadow.appendChild(this.styleNode);
   }
   
   get color() {
@@ -37,8 +30,12 @@ class CounterDisplay extends HTMLElement {
   }
 
   render() {
-    this.styleNode.textContent = this.style;
-    this.countNode.textContent = this.props.count;
+    this.shadow.innerHTML = `
+      <style>
+        ${this.style}
+      </style>
+      <h1>${this.props.count}</h1>
+    `;
   }
 }
 
